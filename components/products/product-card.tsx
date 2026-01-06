@@ -11,7 +11,7 @@ import { ProductType } from "@/types";
 import { VotingButtons } from "@/components/products/voting-buttons";
 import { Badge } from "@/components/ui/badge";
 
-export async function ProductCard({
+export function ProductCard({
   product,
   currentUserId,
 }: {

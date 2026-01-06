@@ -2,7 +2,7 @@ import { SectionHeader } from "@/components/common/section-header";
 import ProductSubmitForm from "@/components/products/product-submit-form";
 import { SparklesIcon } from "lucide-react";
 
-export const SubmitPage = () => {
+export default function SubmitPage() {
   return (
     <section className="py-20">
       <div className="wrapper">
@@ -19,4 +19,4 @@ export const SubmitPage = () => {
       </div>
     </section>
   );
-};
+}

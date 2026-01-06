@@ -1,15 +1,21 @@
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { and, desc, eq, gt, sql } from "drizzle-orm";
+import { and, desc, eq, getTableColumns, gt, sql } from "drizzle-orm";
+import { unstable_cacheTag as cacheTag } from "next/cache";
 
 export const getFeaturedProducts = async () => {
-  const productData = await db
-    .select()
+  "use cache";
+
+  const voteCountSql = sql<number>`jsonb_array_length(COALESCE(${products.votes}, '[]'::jsonb))`;
+
+  return await db
+    .select({
+      ...getTableColumns(products),
+      calculatedVoteCount: voteCountSql.as("v_count"),
+    })
     .from(products)
     .where(eq(products.status, "approved"))
-    .orderBy(desc(products.voteCount));
-
-  return productData;
+    .orderBy(desc(voteCountSql));
 };
 
 export const getRecentlyLaunchedProducts = async () => {
@@ -25,4 +31,15 @@ export const getRecentlyLaunchedProducts = async () => {
     .orderBy(desc(products.createdAt));
 
   return productData;
+};
+
+export const getProductBySlug = async (slug: string) => {
+  "use cache";
+  const result = await db
+    .select()
+    .from(products)
+    .where(eq(products.slug, slug))
+    .limit(1);
+
+  return result[0];
 };

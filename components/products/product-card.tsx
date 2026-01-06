@@ -5,75 +5,62 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { ChevronDownIcon, ChevronUpIcon, StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { InferSelectModel } from "drizzle-orm";
-import { products } from "@/db/schema";
+import { ProductType } from "@/types";
+import { VotingButtons } from "@/components/products/voting-buttons";
+import { Badge } from "@/components/ui/badge";
 
-type ProductType = InferSelectModel<typeof products>;
+export async function ProductCard({
+  product,
+  currentUserId,
+}: {
+  product: ProductType;
+  currentUserId: string | null;
+}) {
 
-export default function ProductCard({ product }: { product: ProductType }) {
-  const hasVoted = false;
+  const hasVoted = !!(
+    currentUserId && product.votes?.some((v) => v.userId === currentUserId)
+  );
+  const voteCount = product.votes?.length || 0;
 
-  const isFeatured = product.voteCount > 100;
   return (
-    <Link href={`/products/${product.id}`}>
-      <Card className="group card-hover hover:bg-primary-foreground/10 border-solid border-gray-400 min-h-45">
+    <Link href={`/products/${product.slug}`}>
+      <Card className="group card-hover hover:bg-primary-foreground/10 border-solid border-gray-400 min-h-50 relative">
         <CardHeader className="flex-1">
           <div className="flex items-start gap-4">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mb-1">
                 <CardTitle className="text-lg group-hover:text-primary transition-colors">
                   {product.name}
                 </CardTitle>
-                {isFeatured ? (
+                {voteCount > 100 && (
                   <Badge className="gap-1 bg-primary text-primary-foreground">
                     <StarIcon className="size-3 fill-current" />
                     Featured
                   </Badge>
-                ) : null}
+                )}
               </div>
-              <CardDescription>{product.description}</CardDescription>
+              <CardDescription className="line-clamp-2">
+                {product.description}
+              </CardDescription>
             </div>
-            {/** Voting buttons */}
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className={cn(
-                  "h-8 w-8 text-primary ",
-                  hasVoted
-                    ? "bg-primary/10 text-primary hover:bg-primary/20"
-                    : "hover:bg-primary/10 hover:text-primary"
-                )}
-              >
-                <ChevronUpIcon className="size-5" />
-              </Button>
-              <span className="text-sm font-semibold transition-colors text-foreground">
-                {product.voteCount}
-              </span>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className={cn(
-                  "h-8 w-8 text-primary ",
-                  hasVoted
-                    ? "hover:text-destructive"
-                    : "opacity-50 cursor-not-allowed"
-                )}
-              >
-                <ChevronDownIcon className="size-5" />
-              </Button>
+
+
+            <div className="z-10">
+              <VotingButtons
+                hasVoted={hasVoted}
+                voteCount={voteCount}
+                productId={product.id}
+                productSlug={product.slug}
+              />
             </div>
           </div>
         </CardHeader>
         <CardFooter>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {product.tags?.map((tag) => (
-              <Badge variant="secondary" key={tag}>
+              <Badge variant="secondary" key={tag} className="font-normal">
                 {tag}
               </Badge>
             ))}

@@ -12,7 +12,7 @@ export const allProducts = [
     approvedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
     status: "approved" as const,
     submittedBy: "atlas@nebula.io",
-    voteCount: 412,
+    votes: [{ userId: "user_1" }, { userId: "user_2" }],
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ export const allProducts = [
     approvedAt: new Date("2024-03-06"),
     status: "approved" as const,
     submittedBy: "dev@velocigraph.app",
-    voteCount: 189,
+    votes: [{ userId: "user_3" }],
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ export const allProducts = [
     approvedAt: new Date("2024-03-11"),
     status: "approved" as const,
     submittedBy: "ghost@dev.com",
-    voteCount: 67,
+    votes: [],
   },
   {
     id: 4,
@@ -57,7 +57,7 @@ export const allProducts = [
     approvedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
     status: "approved" as const,
     submittedBy: "admin@syncro.com",
-    voteCount: 843,
+    votes: [{ userId: "user_1" }, { userId: "user_4" }, { userId: "user_5" }],
   },
   {
     id: 5,
@@ -72,7 +72,7 @@ export const allProducts = [
     approvedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
     status: "approved" as const,
     submittedBy: "pixel@aether.com",
-    voteCount: 1205,
+    votes: [{ userId: "user_2" }, { userId: "user_6" }],
   },
   {
     id: 6,
@@ -87,7 +87,7 @@ export const allProducts = [
     approvedAt: new Date("2024-03-26"),
     status: "approved" as const,
     submittedBy: "sec@krypton.db",
-    voteCount: 356,
+    votes: [{ userId: "user_7" }],
   },
   {
     id: 7,
@@ -102,7 +102,7 @@ export const allProducts = [
     approvedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
     status: "approved" as const,
     submittedBy: "team@lumina.so",
-    voteCount: 921,
+    votes: [{ userId: "user_4" }, { userId: "user_8" }],
   },
   {
     id: 8,
@@ -117,6 +117,6 @@ export const allProducts = [
     approvedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
     status: "approved" as const,
     submittedBy: "poly@omni.xyz",
-    voteCount: 567,
+    votes: [{ userId: "user_1" }, { userId: "user_3" }, { userId: "user_7" }],
   },
 ];

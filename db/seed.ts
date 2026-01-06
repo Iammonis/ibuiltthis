@@ -21,7 +21,7 @@ async function main() {
       description: product.description,
       websiteUrl: product.websiteUrl,
       tags: product.tags,
-      voteCount: product.voteCount || 0,
+      votes: product.votes || [],
       createdAt: product.createdAt,
       approvedAt: product.approvedAt,
       status: product.status,
@@ -29,7 +29,7 @@ async function main() {
     });
 
     console.log(
-      `✅ Added product: ${product.name} (${product.voteCount || 0} votes)`
+      `✅ Added product: ${product.name} (${product.votes?.length || 0} votes)`
     );
   }
 
@@ -40,7 +40,7 @@ async function main() {
   console.log("\n📦 Products in database:");
   insertedProducts.forEach((product) => {
     console.log(
-      `  - ${product.name} (${product.slug}) - ${product.voteCount} votes`
+      `  - ${product.name} (${product.slug}) - ${product.votes?.length} votes`
     );
   });
 }

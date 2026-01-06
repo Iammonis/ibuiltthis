@@ -1,12 +1,16 @@
-"use cache";
 import EmptyState from "@/components/common/empty-state";
 import { SectionHeader } from "@/components/common/section-header";
-import ProductCard from "@/components/products/product-card";
+import { ProductCard } from "@/components/products/product-card";
 import { getRecentlyLaunchedProducts } from "@/lib/products/product-select";
 import { CalendarIcon, RocketIcon } from "lucide-react";
 
-export async function RecentlyLaunchedProducts() {
+export async function RecentlyLaunchedProducts({
+  currentUserId,
+}: {
+  currentUserId?: string;
+}) {
   const recentlyLaunchedProducts = await getRecentlyLaunchedProducts();
+
   return (
     <section className="py-20">
       <div className="wrapper space-y-12">
@@ -19,7 +23,11 @@ export async function RecentlyLaunchedProducts() {
         {recentlyLaunchedProducts.length > 0 ? (
           <div className="grid-wrapper">
             {recentlyLaunchedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                currentUserId={currentUserId || null}
+              />
             ))}
           </div>
         ) : (

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export const generateStaticParams = async () => {
   const products = await getFeaturedProducts();
@@ -23,6 +24,32 @@ export const generateStaticParams = async () => {
     slug: product.slug.toString(),
   }));
 };
+
+async function VotingSection({
+  productId,
+  voteCount,
+  productSlug,
+  initialVotes,
+}: {
+  productId: number;
+  voteCount: number;
+  productSlug: string;
+  initialVotes: { userId: string }[] | null;
+}) {
+  const user = await currentUser();
+  const hasVoted = user?.id
+    ? initialVotes?.some((vote) => vote.userId === user.id) || false
+    : false;
+
+  return (
+    <VotingButtons
+      hasVoted={hasVoted}
+      productId={productId}
+      voteCount={voteCount}
+      productSlug={productSlug}
+    />
+  );
+}
 
 export default async function Product({
   params,
@@ -39,10 +66,10 @@ export default async function Product({
 
   const { name, description, websiteUrl, tags, votes, tagline } = product;
   const voteCount = votes?.length || 0;
-  const user = await currentUser();
-  const hasVoted = user?.id
-    ? votes?.some((vote) => vote.userId === user.id) || false
-    : false;
+  // const user = await currentUser();
+  // const hasVoted = user?.id
+  //   ? votes?.some((vote) => vote.userId === user.id) || false
+  //   : false;
   return (
     <div className="py-16">
       <div className="wrapper">
@@ -114,12 +141,18 @@ export default async function Product({
                   <p className="text-sm text-muted-foreground mb-2">
                     Support this product
                   </p>
-                  <VotingButtons
-                    hasVoted={hasVoted}
-                    productId={product.id}
-                    voteCount={voteCount}
-                    productSlug={slug}
-                  />
+                  <Suspense
+                    fallback={
+                      <div className="h-10 w-full animate-pulse bg-gray-100 rounded" />
+                    }
+                  >
+                    <VotingSection
+                      productId={product.id}
+                      voteCount={voteCount}
+                      productSlug={slug}
+                      initialVotes={votes}
+                    />
+                  </Suspense>
                 </div>
                 {voteCount > 100 && (
                   <div className="pt-6 border-t">

@@ -62,3 +62,14 @@ export const getProductBySlug = async (slug: string) => {
     .limit(1);
   return result[0];
 };
+
+export async function getAllProducts() {
+  "use cache";
+  return await db
+    .select({
+      ...getTableColumns(products),
+      calculatedVoteCount: voteCountSql.as("v_count"),
+    })
+    .from(products)
+    .orderBy(desc(voteCountSql));
+}

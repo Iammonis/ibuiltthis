@@ -36,9 +36,9 @@ Built with the cutting-edge **Next.js 16** and **React 19** ecosystem for maximu
 - Node.js 20+ installed.
 
 ### 1. Installation
+- Clone the repository, then
 
 ```
-git clone [https://github.com/your-username/iBuiltThis.git](https://github.com/your-username/iBuiltThis.git)
 cd iBuiltThis
 npm install
 ```

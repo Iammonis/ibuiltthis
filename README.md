@@ -37,8 +37,42 @@ Built with the cutting-edge **Next.js 16** and **React 19** ecosystem for maximu
 
 ### 1. Installation
 
-```bash
+```
 git clone [https://github.com/your-username/iBuiltThis.git](https://github.com/your-username/iBuiltThis.git)
 cd iBuiltThis
 npm install
+```
+
+### 2. Environment Setup
+
+- Create a .env.local file in the root directory and add your credentials from Clerk and Neon:
+
+```NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
+CLERK_SECRET_KEY=""
+DATABASE_URL=""
+```
+
+### 3. Database Initialization
+
+- Sync your schema and push migrations to Neon using Drizzle:
+
+`npx drizzle-kit push`
+
+### 4. Run Development Server
+
+- Start the local server and visit http://localhost:3000:
+
+  `npm run dev`
+
+## 🏗️ Architecture & Structure
+
+```
+├── app/              # Next.js App Router (Explore, Submit, Auth)
+├── components/       # UI Library (Shadcn + Product Specific Components)
+├── db/               # Drizzle Schema & Neon Database Configuration
+├── lib/              # Core Logic
+│   ├── products/     # Server Actions (Voting, Submitting) & Data Selects
+│   └── utils.ts      # UI Class Merging Helpers
+├── types/            # Global TypeScript Definitions
+└── public/           # Static Brand Assets
 ```

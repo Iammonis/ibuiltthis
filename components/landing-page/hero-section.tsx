@@ -1,3 +1,4 @@
+"use cache";
 import { StatsCard } from "@/components/landing-page/stats-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,7 @@ const statsData = [
   },
 ];
 
-export function HeroSection() {
+export async function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-background via-background to-muted/20">
       <div className="wrapper">
